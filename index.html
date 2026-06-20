@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>交流会コミュニティ</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    font-family:sans-serif;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* 背景 */
+.bg{
+    position:fixed;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    transition:opacity 1s ease;
+    z-index:0;
+}
+
+/* コンテンツ */
+.container{
+    position:relative;
+    z-index:1;
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+/* ヘッダー */
+header{
+    text-align:center;
+    padding:30px;
+    margin:15px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+}
+
+/* ロール */
+.role{
+    background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+/* メンバー */
+.member{
+    background:rgba(255,255,255,0.12);
+    padding:12px 15px;
+    margin:10px 0;
+    border-radius:10px;
+    text-align:center;
+    opacity:0;
+    transform:translateY(10px);
+    transition:0.6s ease;
+}
+
+.member.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.member img.square{
+    width:100%;
+    max-width:800px;
+    height:auto;
+    border-radius:0; /* 四角 */
+    display:block;
+    margin:0 auto 10px;
+}
+
+.member img.icon{
+    width:120px;
+    height:120px;
+    border-radius:50%; /* 丸 */
+    object-fit:cover;
+    display:block;
+    margin:0 auto 10px;
+}
+
+/* 名前 */
+.name{
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:6px;
+}
+
+/* SNSボタン */
+.url{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    margin:3px;
+    color:white;
+}
+
+
+.url:hover{
+    transform:scale(1.05);
+    opacity:0.9;
+}
+
+/* グリッド */
+.member-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+@media(max-width:768px){
+    .member-list{grid-template-columns:repeat(2,1fr);}
+}
+
+/* バッジ */
+.etc{
+    font-size:10px;
+    opacity:0.7;
+    margin-top:5px;
+}
+
+
+.sns-btn:hover{
+    transform:scale(1.08);
+    opacity:0.9;
+}
+.member{
+    text-align:center;
+}
+
+.name{
+    display:block;
+    margin-top:8px;
+}
+
+/* SNSブロック */
+.sns{
+    margin-top:8px;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+/* ボタン */
+.sns-btn{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    color:white;
+    transition:0.2s;
+}
+
+/* 色 */
+.youtube{background:#ff4d4d;}
+.twitter{background:#111827;}
+.tiktok{background:#a855f7;}
+
+.sns-btn:hover{
+    transform:scale(1.05);
+    opacity:0.9;
+}
+.sub-name{
+    color:#38bdf8; /* 明るい水色 */
+    font-weight:bold;
+}
+.mod-name{
+    color:#3b82f6; /* 青 */
+    font-weight:bold;
+}
+.mem .name{
+    color:#22c55e; /* 明るい緑 */
+    font-weight:bold;
+}
+.hero{
+    position:relative;
+    z-index:1;
+    text-align:center;
+    padding:80px 20px;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(8px);
+}
+
+.hero h1{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    opacity:0.8;
+    margin-bottom:20px;
+}
+
+.join-btn{
+    display:inline-block;
+    padding:12px 24px;
+    background:#38bdf8;
+    color:black;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.join-btn:hover{
+    transform:scale(1.05);
+}
+.hero h1{
+    font-size:40px;
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        green,
+        blue,
+        indigo,
+        violet,
+        red
+    );
+    background-size:400% 400%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation: rainbowMove 8s linear infinite;
+}
+
+@keyframes rainbowMove{
+    0%{background-position:0% 50%;}
+    100%{background-position:100% 50%;}
+}
+.rainbow{
+    font-weight:bold;
+    font-size:17px;
+
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        green,
+        blue,
+        indigo,
+        violet,
+        red
+    );
+
+    background-size:400% 400%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation: rainbowMove 6s linear infinite;
+}
+
+@keyframes rainbowMove{
+    0%{background-position:0% 50%;}
+    100%{background-position:100% 50%;}
+}
+.intro{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:15px;
+    padding:20px;
+    margin:15px 0;
+    backdrop-filter:blur(8px);
+}
+
+/* 大きい紹介 */
+.intro.big h2{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.intro.big p{
+    font-size:16px;
+    opacity:0.9;
+    line-height:1.6;
+}
+
+/* 小さい条件 */
+.intro.small h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.role, header, .intro, .member{
+    background:rgba(255,255,255,0.9);
+    color:#0f172a;
+}
+.footer{
+    text-align:center;
+    padding:20px;
+    background:rgba(255,255,255,0.9);
+    color:#0f172a;
+    margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<audio id="bgm" loop></audio>
+
+<div class="hero">
+    <h1>月詠交流会へようこそ</h1>
+    <p>月詠ではみんなが表現者！雑談やボイスチャット、コミュニティーで個性を出していこう！！</p>
+
+    <a class="join-btn" href="https://discord.gg/HAuyp9NP" target="_blank">
+        月詠に参加    </a>
+</div>
+<div class="intro big">
+    <h2>🌙 サーバー紹介</h2>
+    <p>
+初めに
+「yoccie よっしー」が率いる「ツクヨミ交流会！」では毎日楽しく活動をしています！
+そしてこの度、サーバー内のメンバーである「よっしー、抹茶ラテ」にツクヨミ交流会のホームページを制作していただきました！
+
+ツクヨミ交流会の様子
+
+ツクヨミ交流会ではメンバー全員優しく、お互いの良いところを尊重し合っています！
+その他にも一部のメンバーは、お悩み相談などサーバー外で起きた事などにも親身に対応して一緒に協力してくれます！
+「超かぐや姫！」意外にも日常雑談・ゲームの話なども盛んに行われております！
+ゲームの一部は「マインクラフト・フォートナイト・Apex・ブロスタ・にゃんこ大戦争・原神・崩壊スターレイル・ゼンレストーンゼロ」などです！
+全員が新規さんの事を歓迎しますので是非是非参加してみてはどうでしょうか？
+</p>
+</div>
+
+<div class="intro small">
+    <h3>📌 参加条件</h3>
+    <p>
+       ・サーバー創立者「yoccie よっしー」とディスコードでフレンドになる事
+努力義務→超かぐや姫を見ていること
+</p>
+
+    <h3>📌 参加方法</h3>
+    <p>
+サーバー創立者「yoccie よっしー」さんとフレンドになってサーバーに入ってください。※上記の「月詠に参加」をクリックしたら鯖主とフレンドになります。
+フレンドになった際、サーバーを知るきっかけとなったルートを鯖主に報告してください。
+  <p>
+
+</div>
+
+<div class="container">
+
+<!-- 鯖主 -->
+<div class="role">
+<h2>👑 鯖主</h2>
+
+
+<div class="member show">
+
+    <img src="illust.png" class="square">
+    <img src="myphoto2.png" class="icon">
+
+    <span class="name rainbow">よっしー</span>
+
+    <!-- SNSはここ（名前の直下） -->
+<div class="sns">
+
+    <a class="sns-btn youtube"
+       href="https://youtube.com/@yoccie44?si=NoVAeRK-YVcSEvVA"
+       target="_blank">
+       YouTube
+    </a>
+
+    <a class="sns-btn twitter"
+       href="https://x.com/yoccie044"
+       target="_blank">
+       X
+    </a>
+
+    <a class="sns-btn tiktok"
+       href="https://www.tiktok.com/@yoccie44?_r=1&_t=ZS-97L6AjS58xm"
+       target="_blank">
+       TikTok
+    </a>
+
+</div>
+
+    <div class="etc">運営</div>
+
+</div>
+
+</div>
+
+<!-- 副官 -->
+<div class="role">
+<h2>⭐ 副官</h2>
+<div class="member sub">
+    <div class="name sub-name">inono</div>
+</div>
+<div class="member mod">
+    <div class="name sub-name">抹茶ラテ</div>
+</div>
+
+</div>
+
+
+<!-- モデ -->
+<div class="role">
+<h2>🛡️ モデレーター</h2>
+<div class="member mod">
+    <div class="name mod-name">りとりと</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">わっぴぃ</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">てるる</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">たこ</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">setojiii(自由)</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">ゆろ</div>
+</div>
+
+<div class="member mod">
+    <div class="name mod-name">みずいろ</div>
+</div>
+
+
+</div>
+
+<div class="role">
+    <h2>👥 メンバー</h2>
+
+    <div class="member-list">
+
+        <div class="member mem mem-yashiro"><span class="name">ヤシロキツネ</span></div>
+        <div class="member mem mem-tamori"><span class="name">タモリ</span></div>
+        <div class="member mem mem-takashi"><span class="name">タカシ</span></div>
+        <div class="member mem mem-hiikun"><span class="name">ひーくん</span></div>
+        <div class="member mem mem-takeru"><span class="name">炊ける</span></div>
+        <div class="member mem mem-irunoka"><span class="name">いるのか</span></div>
+        <div class="member mem mem-yuu"><span class="name">ゆう</span></div>
+        <div class="member mem mem-pizza"><span class="name">pizza</span></div>
+        <div class="member mem mem-whiteshock"><span class="name">ホワイトサンダー</span></div>
+        <div class="member mem mem-nitamago"><span class="name">にたまご</span></div>
+        <div class="member mem mem-holo27"><span class="name">holo27</span></div>
+        <div class="member mem mem-kaisan"><span class="name">kaisan</span></div>
+        <div class="member mem mem-jagarico"><span class="name">じゃがりこ</span></div>
+        <div class="member mem mem-way"><span class="name">WAY主</span></div>
+        <div class="member mem mem-yami"><span class="name">やみ</span></div>
+        <div class="member mem mem-na"><span class="name">な</span></div>
+        <div class="member mem mem-areko"><span class="name">あれこ</span></div>
+        <div class="member mem mem-shiratama"><span class="name">しらたま</span></div>
+        <div class="member mem mem-nihoheycy"><span class="name">nihoheycy</span></div>
+        <div class="member mem mem-hayashi"><span class="name">はやし</span></div>
+        <div class="member mem mem-hase"><span class="name">Hase</span></div>
+        <div class="member mem mem-true"><span class="name">True</span></div>
+        <div class="member mem mem-tacchi"><span class="name">たっちー</span></div>
+        <div class="member mem mem-uartx10"><span class="name">UARTX10</span></div>
+        <div class="member mem mem-tsukya"><span class="name">つきゃ</span></div>
+        <div class="member mem mem-chikoku"><span class="name">遅刻魔</span></div>
+        <div class="member mem mem-elpys"><span class="name">エルピス</span></div>
+        <div class="member mem mem-mero"><span class="name">めろ</span></div>
+        <div class="member mem mem-tsu"><span class="name">つー</span></div>
+        <div class="member mem mem-kotack"><span class="name">コタック</span></div>
+        <div class="member mem mem-irokagu"><span class="name">いろかぐ</span></div>
+        <div class="member mem mem-zephyr"><span class="name">Zephyr(ゼファー)</span></div>
+        <div class="member mem mem-riko"><span class="name">りこ</span></div>
+        <div class="member mem mem-satori"><span class="name">さとり</span></div>
+        <div class="member mem mem-nagi"><span class="name">N.なぎ</span></div>
+        <div class="member mem mem-azumax"><span class="name">アズマックス</span></div>
+        <div class="member mem mem-hajimen"><span class="name">はじめん</span></div>
+        <div class="member mem mem-sukeshun"><span class="name">すけしゅん</span></div>
+        <div class="member mem mem-kuro"><span class="name">kuro9671</span></div>
+        <div class="member mem mem-ryota"><span class="name">りょた</span></div>
+        <div class="member mem mem-katsutarou"><span class="name">かつたろう</span></div>
+        <div class="member mem mem-jiyu"><span class="name">自由人</span></div>
+        <div class="member mem mem-no4"><span class="name">ピチュー</span></div>
+        <div class="member mem mem-no4"><span class="name">Ponzu</span></div>
+        <div class="member mem mem-no4"><span class="name">よっちゃ</span></div>
+        <div class="member mem mem-no4"><span class="name">dammy216</span></div>
+        <div class="member mem mem-no4"><span class="name">Takashi</span></div>
+        <div class="member mem mem-no4"><span class="name">こめ</span></div>
+        <div class="member mem mem-no4"><span class="name">名無し</span></div>
+        <div class="member mem mem-no4"><span class="name">もっちゃ！</span></div>
+        <div class="member mem mem-no4"><span class="name">さーど</span></div>
+        <div class="member mem mem-no4"><span class="name">ゆあちゃ</span></div>
+        <div class="member mem mem-no4"><span class="name">める</span></div>
+        <div class="member mem mem-no4"><span class="name">春ちゃん</span></div>
+        <div class="member mem mem-no4"><span class="name">バナナ</span></div>
+        <div class="member mem mem-no4"><span class="name">スカーフィ</span></div>
+        <div class="member mem mem-no4"><span class="name">あすぞら</span></div>
+        <div class="member mem mem-no4"><span class="name">ちょこ</span></div>
+        <div class="member mem mem-no4"><span class="name">ひま</span></div>
+        <div class="member mem mem-no4"><span class="name">はやと</span></div>
+        <div class="member mem mem-no4"><span class="name">ゆずレモンサイダー</span></div>
+        <div class="member mem mem-no4"><span class="name">SENNA</span></div>
+        <div class="member mem mem-no4"><span class="name">かなてぃバー</span></div>
+        <div class="member mem mem-no4"><span class="name">ポピー</span></div>
+        <div class="member mem mem-no4"><span class="name">もちお</span></div>
+        <div class="member mem mem-no4"><span class="name">ひびき</span></div>
+        <div class="member mem mem-no4"><span class="name">えこ!!!!!</span></div>
+        <div class="member mem mem-no4"><span class="name">すみ</span></div>
+        <div class="member mem mem-no4"><span class="name">いさ</span></div>
+        <div class="member mem mem-no4"><span class="name">コロン</span></div>
+        <div class="member mem mem-no4"><span class="name">SA</span></div>
+        <div class="member mem mem-no4"><span class="name">るな</span></div>
+        <div class="member mem mem-no4"><span class="name">ひかり</span></div>
+        <div class="member mem mem-no4"><span class="name">サブラテ</span></div>
+        <div class="member mem mem-no4"><span class="name">たっちゃん</span></div>
+
+</div>
+<footer class="footer">
+  <p>© 月詠交流会　作成者：ひーくん・抹茶ラテ</p>
+</footer>
+
+<script>
+const bg=document.getElementById("bg");
+const images=["images/bg1.png","images/bg2.png","images/bg3.png"];
+
+bg.style.backgroundImage=`url(${images[0]})`;
+let i=1;
+
+function changeBG(){
+    bg.style.opacity=0;
+    setTimeout(()=>{
+        bg.style.backgroundImage=`url(${images[i]})`;
+        bg.style.opacity=1;
+        i=(i+1)%images.length;
+    },500);
+}
+
+setInterval(changeBG,5000);
+const bgm=document.getElementById("bgm");
+
+function playMusic(file){
+    bgm.src=file;
+    bgm.play();
+}
+
+function stopMusic(){
+    bgm.pause();
+    bgm.currentTime=0;
+}
+
+
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+        if(e.isIntersecting)e.target.classList.add("show");
+    });
+},{threshold:0.1});
+
+document.querySelectorAll(".member").forEach(m=>obs.observe(m));
+</script>
+
+</body>
+</html>
